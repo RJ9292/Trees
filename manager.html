@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager - Save the Trees</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #004d00;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin: 0 1rem;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .hero {
+            position: relative;
+            height: 60vh;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .hero h2 {
+            font-size: 2.5rem;
+            z-index: 2;
+            position: relative;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            z-index: 2;
+            position: relative;
+        }
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .slides {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .slides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .active {
+            display: block;
+        }
+        .content-section {
+            padding: 2rem;
+            background-color: white;
+            margin: 2rem auto;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .content-section h3 {
+            color: #004d00;
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .feature {
+            flex: 1 1 calc(33.333% - 2rem);
+            background-color: #e8f5e9;
+            padding: 1rem;
+            border-radius: 5px;
+        }
+        .feature h4 {
+            margin-top: 0;
+        }
+        .cta {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .cta a {
+            text-decoration: none;
+            background-color: #004d00;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        footer {
+            background-color: #002200;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Manager Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#management">Management</a></li>
+                <li><a href="#reports">Reports</a></li>
+                <li><a href="#settings">Settings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="slideshow-container">
+            <div class="slides active">
+                <img src="C:\Users\heath\Documents\Trees\Tree Planting 1.jpg" alt="Tree Planting 1">
+            </div>
+            <div class="slides">
+                <img src="C:\Users\heath\Documents\Trees\Tree Planting 2.jpg" alt="Tree Planting 2">
+            </div>
+        </div>
+        <h2>Welcome to the Manager Dashboard</h2>
+        <p>Oversee tree planting projects and manage operations efficiently.</p>
+    </section>
+
+    <div class="content-section">
+        <h3 id="management">Management Features</h3>
+        <div class="features">
+            <div class="feature">
+                <h4>Donation Management</h4>
+                <p>Securely process and track donations with detailed financial reports.</p>
+            </div>
+            <div class="feature">
+                <h4>Impact Reporting</h4>
+                <p>Generate visual reports on tree planting and environmental impacts.</p>
+            </div>
+            <div class="feature">
+                <h4>Event Scheduling</h4>
+                <p>Coordinate events efficiently with online sign-ups and automated notifications.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Save the Trees. All Rights Reserved.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>

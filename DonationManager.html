@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Management</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #004d00;
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #003300;
+            padding: 1rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            background-color: #005c1f;
+            color: #f4f4f4;
+            transform: scale(1.1);
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        .card {
+            background: linear-gradient(to bottom right, #e8f5e9, #dcedc8);
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            font-size: 2rem;
+            color: #004d00;
+        }
+        .card p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+        .table-container {
+            grid-column: span 2;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .table-container h2 {
+            text-align: center;
+            color: #004d00;
+            margin-bottom: 1rem;
+        }
+        .export-buttons {
+            text-align: right;
+            margin-bottom: 1rem;
+        }
+        .export-buttons button {
+            margin-left: 10px;
+            background-color: #004d00;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .export-buttons button:hover {
+            background-color: #005c1f;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        .table th {
+            background-color: #dcedc8;
+            font-weight: bold;
+            color: #004d00;
+        }
+        .table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .table tr:hover {
+            background-color: #f1f8e9;
+        }
+        .chart-container {
+            grid-column: span 2;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #004d00;
+        }
+        footer {
+            background-color: #004d00;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Donation Management</h1>
+    </header>
+
+    <nav>
+        <a href="tree-planting-management.html">Tree Planting</a>
+        <a href="event-management.html">Events</a>
+        <a href="donation-management.html">Donations</a>
+        <a href="reports.html">Reports</a>
+    </nav>
+
+    <div class="dashboard">
+        <div class="card">
+            <h2>Total Donations</h2>
+            <p>$2,500</p>
+        </div>
+        <div class="card">
+            <h2>Tree Planting Campaign</h2>
+            <p>$750</p>
+        </div>
+        <div class="card">
+            <h2>Riverbank Restoration</h2>
+            <p>$1,100</p>
+        </div>
+        <div class="card">
+            <h2>Community Garden</h2>
+            <p>$650</p>
+        </div>
+
+        <div class="table-container">
+            <h2>Donation Details</h2>
+            <div class="export-buttons">
+                <button onclick="exportToExcel()">Export to Excel</button>
+                <button onclick="exportToCSV()">Export to CSV</button>
+                <button onclick="exportToPDF()">Export to PDF</button>
+            </div>
+            <table class="table" id="donationTable">
+                <thead>
+                    <tr>
+                        <th>Donor Name</th>
+                        <th>Amount</th>
+                        <th>Campaign</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Mary Johnson</td>
+                        <td>$200</td>
+                        <td>Tree Planting Campaign</td>
+                        <td>2024-11-14</td>
+                    </tr>
+                    <tr>
+                        <td>John Smith</td>
+                        <td>$500</td>
+                        <td>Riverbank Restoration</td>
+                        <td>2024-11-13</td>
+                    </tr>
+                    <tr>
+                        <td>Susan Lee</td>
+                        <td>$350</td>
+                        <td>Community Garden</td>
+                        <td>2024-11-12</td>
+                    </tr>
+                    <tr>
+                        <td>James Brown</td>
+                        <td>$150</td>
+                        <td>Tree Planting Campaign</td>
+                        <td>2024-11-11</td>
+                    </tr>
+                    <tr>
+                        <td>Emily White</td>
+                        <td>$400</td>
+                        <td>Riverbank Restoration</td>
+                        <td>2024-11-10</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="chart-container">
+            <h2>Donations by Campaign</h2>
+            <canvas id="donationChart"></canvas>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Save the Trees. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('donationChart').getContext('2d');
+        const donationChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Tree Planting Campaign', 'Riverbank Restoration', 'Community Garden'],
+                datasets: [{
+                    data: [750, 1100, 650],
+                    backgroundColor: ['#4caf50', '#2196f3', '#ffc107'],
+                    borderColor: ['#388e3c', '#1976d2', '#ffb300'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+        function exportToExcel() {
+            const table = document.getElementById('donationTable');
+            const workbook = XLSX.utils.table_to_book(table, { sheet: "Donations" });
+            XLSX.writeFile(workbook, 'donations.xlsx');
+        }
+
+        function exportToCSV() {
+            const table = document.getElementById('donationTable');
+            const csv = XLSX.utils.sheet_to_csv(XLSX.utils.table_to_sheet(table));
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            saveAs(blob, 'donations.csv');
+        }
+
+        function exportToPDF() {
+            const pdf = new jsPDF();
+            pdf.text(20, 20, 'Donation Details');
+            pdf.autoTable({ html: '#donationTable' });
+            pdf.save('donations.pdf');
+        }
+    </script>
+</body>
+</html>

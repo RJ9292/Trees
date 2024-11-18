@@ -1,0 +1,167 @@
+<!-- Upcoming Events (User) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #004d00;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #003300;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+        }
+        nav a:hover {
+            background-color: #006600;
+        }
+        .content {
+            padding: 2rem;
+            background-color: white;
+            margin: 2rem auto;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .content h1 {
+            color: #004d00;
+        }
+        .event-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        .event-table th, .event-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .event-table th {
+            background-color: #e8f5e9;
+        }
+        .coordinates {
+            color: #004d00;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .signup-button {
+            background-color: #004d00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .signup-button:hover {
+            background-color: #006600;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Upcoming Events</h1>
+    </header>
+
+    <nav>
+        <a href="tree-planting-tracker.html">Tree Planting Tracker</a>
+        <a href="upcoming-events.html">Upcoming Events</a>
+        <a href="donation-management.html">Donation Management</a>
+    </nav>
+
+    <div class="content">
+        <h1>Join Our Upcoming Tree Planting Events</h1>
+
+        <table class="event-table" id="eventTable">
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Coordinates</th>
+                    <th>Sign Up</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-lat="-34.0057" data-lng="18.4631">
+                    <td>Community Garden Planting</td>
+                    <td>2024-11-20</td>
+                    <td>Community Park</td>
+                    <td><span class="coordinates" onclick="panToLocation(-34.0057, 18.4631)">View on Map</span></td>
+                    <td><button class="signup-button" onclick="signUp('Community Garden Planting')">Sign Up</button></td>
+                </tr>
+                <tr data-lat="-34.0132" data-lng="18.4718">
+                    <td>Riverbank Restoration</td>
+                    <td>2024-12-05</td>
+                    <td>Riverbank Park</td>
+                    <td><span class="coordinates" onclick="panToLocation(-34.0132, 18.4718)">View on Map</span></td>
+                    <td><button class="signup-button" onclick="signUp('Riverbank Restoration')">Sign Up</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="map"></div>
+    </div>
+
+    <script>
+        let map;
+
+        function initMap() {
+            const defaultCenter = { lat: -34.0057, lng: 18.4631 }; // Default to Community Garden Planting
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: defaultCenter,
+            });
+
+            const events = [
+                { lat: -34.0057, lng: 18.4631, name: "Community Garden Planting" },
+                { lat: -34.0132, lng: 18.4718, name: "Riverbank Restoration" },
+            ];
+
+            // Add markers for each event
+            events.forEach((event) => {
+                new google.maps.marker.AdvancedMarkerElement({
+                    position: { lat: event.lat, lng: event.lng },
+                    map: map,
+                    title: event.name,
+                });
+            });
+        }
+
+        // Function to pan the map to the specified location
+        function panToLocation(lat, lng) {
+            map.panTo({ lat, lng });
+            map.setZoom(15);
+        }
+
+        // Function to handle event sign-ups
+        function signUp(eventName) {
+            alert(`You have successfully signed up for the ${eventName} event!`);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADEIQdW18dPWGEIbslDrE8qBkrI8NEPwM&callback=initMap" defer></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!-- Tree Planting Tracker (User) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Tree Planting Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #004d00;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #003300;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+        }
+        nav a:hover {
+            background-color: #006600;
+        }
+        .content {
+            padding: 2rem;
+            background-color: white;
+            margin: 2rem auto;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .content h1 {
+            color: #004d00;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #e8f5e9;
+        }
+        .coordinates {
+            color: #004d00;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Tree Planting Tracker</h1>
+    </header>
+
+    <nav>
+        <a href="tree-planting-tracker.html">Tree Planting Tracker</a>
+        <a href="upcoming-events.html">Upcoming Events</a>
+        <a href="donation-management.html">Donation Management</a>
+    </nav>
+
+    <div class="content">
+        <h1>Your Contribution</h1>
+        <p>Below is a log of the trees you planted in forests around Cape Town:</p>
+
+        <table class="table" id="treeTable">
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Tree Type</th>
+                    <th>Date</th>
+                    <th>Coordinates</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-lat="-34.0219" data-lng="18.4233">
+                    <td>Newlands Forest</td>
+                    <td>Oak</td>
+                    <td>2024-11-01</td>
+                    <td><span class="coordinates" onclick="panToLocation(-34.0219, 18.4233)">View on Map</span></td>
+                </tr>
+                <tr data-lat="-34.1056" data-lng="18.4028">
+                    <td>Cecilia Forest</td>
+                    <td>Pine</td>
+                    <td>2024-11-05</td>
+                    <td><span class="coordinates" onclick="panToLocation(-34.1056, 18.4028)">View on Map</span></td>
+                </tr>
+                <tr data-lat="-34.0313" data-lng="18.3675">
+                    <td>Tokai Forest</td>
+                    <td>Yellowwood</td>
+                    <td>2024-11-10</td>
+                    <td><span class="coordinates" onclick="panToLocation(-34.0313, 18.3675)">View on Map</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="map"></div>
+    </div>
+
+    <script>
+        let map;
+
+        function initMap() {
+            const defaultCenter = { lat: -34.0219, lng: 18.4233 }; // Default to Newlands Forest
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: defaultCenter,
+            });
+
+            const locations = [
+                { lat: -34.0219, lng: 18.4233, name: "Newlands Forest" },
+                { lat: -34.1056, lng: 18.4028, name: "Cecilia Forest" },
+                { lat: -34.0313, lng: 18.3675, name: "Tokai Forest" },
+            ];
+
+            // Add markers for each location
+            locations.forEach((location) => {
+                new google.maps.marker.AdvancedMarkerElement({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.name,
+                });
+            });
+        }
+
+        // Function to pan the map to the specified location
+        function panToLocation(lat, lng) {
+            map.panTo({ lat, lng });
+            map.setZoom(15);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADEIQdW18dPWGEIbslDrE8qBkrI8NEPwM&callback=initMap" defer></script>
+</body>
+</html>
