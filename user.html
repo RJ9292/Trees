@@ -36,21 +36,42 @@
             text-decoration: none;
         }
         .hero {
-            background-image: url('tree-planting.jpg');
-            background-size: cover;
-            background-position: center;
+            position: relative;
             height: 60vh;
             color: white;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            overflow: hidden;
         }
         .hero h2 {
             font-size: 2.5rem;
+            position: relative;
+            z-index: 2;
         }
         .hero p {
             font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .slides {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        .slides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .content-section {
             padding: 2rem;
@@ -100,42 +121,6 @@
         footer p {
             margin: 0;
         }
-        .slideshow-container {
-            position: relative;
-            margin: auto;
-            max-width: 90%;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .slides {
-            display: none;
-            width: 100%;
-        }
-        .slides img {
-            width: 100%;
-            border-radius: 10px;
-        }
-        .active {
-            display: block;
-        }
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .prev {
-            left: 10px;
-        }
-        .next {
-            right: 10px;
-        }
     </style>
 </head>
 <body>
@@ -145,13 +130,29 @@
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#donate">Donate</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
 
     <section class="hero">
+        <div class="slideshow-container">
+            <div class="slides active">
+                <img src="C:/Users/heath/Documents/Trees/Tree Planting 1.jpg" alt="Tree Planting 1">
+            </div>
+            <div class="slides">
+                <img src="C:/Users/heath/Documents/Trees/Tree Planting 2.jpg" alt="Tree Planting 2">
+            </div>
+            <div class="slides">
+                <img src="C:/Users/heath/Documents/Trees/Tree Planting 3.jpg" alt="Tree Planting 3">
+            </div>
+            <div class="slides">
+                <img src="C:/Users/heath/Documents/Trees/Tree Planting 4.jpg" alt="Tree Planting 4">
+            </div>
+            <div class="slides">
+                <img src="C:/Users/heath/Documents/Trees/Tree Planting 5.jpg" alt="Tree Planting 5">
+            </div>
+        </div>
         <h2>Join Us in Planting a Billion Trees</h2>
         <p>Together, we can make a difference for the planet.</p>
     </section>
@@ -165,49 +166,17 @@
             </div>
             <div class="feature">
                 <h4>Volunteer Management</h4>
-                <p>Track and engage volunteers with event notifications and participation tracking.</p>
-            </div>
-            <div class="feature">
-                <h4>Donor Dashboard</h4>
-                <p>Enable donors to see their impact with personalized dashboards and reports.</p>
+                <p>Track and engage with tree-planting events.</p>
             </div>
             <div class="feature">
                 <h4>Event Scheduling</h4>
-                <p>Coordinate events efficiently with online sign-ups and automated notifications.</p>
-            </div>
-            <div class="feature">
-                <h4>Donation Management</h4>
-                <p>Securely process and track donations with detailed financial reports.</p>
-            </div>
-            <div class="feature">
-                <h4>Impact Reporting</h4>
-                <p>Generate visual reports on tree planting and environmental impacts.</p>
+                <p>Find and join events in your area to make an impact.</p>
             </div>
         </div>
-    </div>
-
-    <div class="slideshow-container">
-        <div class="slides active">
-            <img src="C:/Users/heath/Downloads/Tree Planting 1.jpeg" alt="Tree Planting 1">
-        </div>
-        <div class="slides">
-            <img src="C:/Users/heath/Downloads/Tree Planting 2.jpeg" alt="Tree Planting 2">
-        </div>
-        <div class="slides">
-            <img src="C:/Users/heath/Downloads/Tree Planting 3.jpeg" alt="Tree Planting 3">
-        </div>
-        <div class="slides">
-            <img src="C:/Users/heath/Downloads/Tree Planting 4.jpeg" alt="Tree Planting 4">
-        </div>
-        <div class="slides">
-            <img src="C:/Users/heath/Downloads/Tree Planting 5.jpeg" alt="Tree Planting 5">
-        </div>
-        <button class="prev" onclick="plusSlides(-1)">&#10094;</button>
-        <button class="next" onclick="plusSlides(1)">&#10095;</button>
     </div>
 
     <div class="cta">
-        <a href="#donate">Donate Now</a>
+        <a href="#contact">Get Involved</a>
     </div>
 
     <footer>
@@ -216,24 +185,17 @@
 
     <script>
         let slideIndex = 0;
-        showSlides(slideIndex);
+        const slides = document.querySelectorAll('.slides');
 
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        function showSlides(n) {
-            const slides = document.querySelectorAll('.slides');
-            if (n >= slides.length) {
-                slideIndex = 0;
-            }
-            if (n < 0) {
-                slideIndex = slides.length - 1;
-            }
+        function showSlides() {
             slides.forEach((slide, index) => {
                 slide.style.display = index === slideIndex ? 'block' : 'none';
             });
+            slideIndex = (slideIndex + 1) % slides.length;
         }
+
+        setInterval(showSlides, 3000);
+        showSlides();
     </script>
 </body>
 </html>
